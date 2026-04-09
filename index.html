@@ -1,35 +1,80 @@
-// Complete TAP RUSH ARENA Game Code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAP RUSH ARENA</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #1d1d1d;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .glow {
+            text-shadow: 0 0 10px #00ff00;
+        }
+        button {
+            background-color: #00ff00;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="glow">TAP RUSH ARENA</h1>
+    <div id="gameModes">
+        <h2>Select Game Mode</h2>
+        <button id="classicModeBtn">Classic Mode</button>
+        <button id="timeAttackModeBtn">Time Attack Mode</button>
+    </div>
+    <div id="leaderboard">
+        <h2>Leaderboard</h2>
+        <ul id="scoreList"></ul>
+    </div>
+    <div id="socialSharing">
+        <h2>Share Your Score</h2>
+        <button id="shareTwitter">Share on Twitter</button>
+        <button id="shareFacebook">Share on Facebook</button>
+        <button id="copyLink">Copy Link</button>
+    </div>
+    <script>
+        document.getElementById('classicModeBtn').addEventListener('click', function() {
+            startClassicMode();
+        });
 
-// Game Initialization
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
+        document.getElementById('timeAttackModeBtn').addEventListener('click', function() {
+            startTimeAttackMode();
+        });
 
-// Game Variables
-let playerScore = 0;
-let gameRunning = true;
+        document.getElementById('shareTwitter').addEventListener('click', function() {
+            const score = getScore();
+            const url = document.location.href;
+            window.open(`https://twitter.com/intent/tweet?text=I%20scored%20${score}%20in%20TAP%20RUSH%20ARENA!%20Check%20it%20out:%20${url}`);
+        });
 
-// Game Functions
-function startGame() {
-    // Initialize game
-    playerScore = 0;
-    gameRunning = true;
-    gameLoop();
-}
+        document.getElementById('shareFacebook').addEventListener('click', function() {
+            const score = getScore();
+            const url = document.location.href;
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
+        });
 
-function gameLoop() {
-    if (gameRunning) {
-        updateGameArea();
-        requestAnimationFrame(gameLoop);
-    }
-}
-
-function updateGameArea() {
-    // Update game elements
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.font = '20px Arial';
-    ctx.fillText('Score: ' + playerScore, 10, 20);
-    // Add game logic here
-}
-
-// Event Listeners
-window.addEventListener('load', startGame);
+        document.getElementById('copyLink').addEventListener('click', function() {
+            navigator.clipboard.writeText(document.location.href);
+            alert('Link copied to clipboard!');
+        });
+    </script>
+</body>
+</html>
